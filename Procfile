@@ -1,1 +1,1 @@
-web: gunicorn agent_max.app:app
+web: PYTHONPATH=. gunicorn agent_max.app:app
