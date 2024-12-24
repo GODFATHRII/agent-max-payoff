@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from flask import Flask, render_template, request, redirect, url_for, flash
 from agent_max.max import make_api_call
 from datetime import datetime
