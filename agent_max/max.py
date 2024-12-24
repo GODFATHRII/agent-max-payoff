@@ -17,7 +17,7 @@ from .prompts import SYSTEM_PROMPT_MESSAGE, VOICEMAIL_MESSAGE, INTRODUCTORY_MESS
 def make_api_call(loan_number, to_number, good_through_date, ssn_full):
     # Fetch loan details using the provided loan number
     loan_details = fetch_loan_details(loan_number)
-    print(loan_details)
+
     # If ssn_full is provided, add it to the system prompt
     if ssn_full:
         ssn_full = f"9. Full SSN Number: {ssn_full}"
@@ -132,7 +132,7 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full):
     vapi_api_response = requests.request("POST", VAPI_BASE_URL, json=payload, headers=headers)
 
     # Attempt to extract and print the call ID from the response
-    if vapi_api_response.status_code == 200:
+    if vapi_api_response.status_code == 201:
         try:
             vapi_call_id = vapi_api_response.json().get("id")
             flash(f'Call Initiated! Max is ordering the payoff for Loan number: {loan_number} with Order ID: {order_id}. Call ID: {vapi_call_id}', 'success')
