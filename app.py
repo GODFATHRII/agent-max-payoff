@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from .max import make_api_call
+from agent_max.max import make_api_call
 from datetime import datetime
-from .constants import FLASH_APP_SECRET_KEY
+from agent_max.constants import FLASH_APP_SECRET_KEY
 
 # Initialize the Flask application
 app = Flask(__name__)
