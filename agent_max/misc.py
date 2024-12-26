@@ -41,11 +41,18 @@ def fetch_loan_details(loan_number: str):
         return None
     
 def number_to_words_with_custom_dots(number):
+    # Return empty string if number is None
+    if not number:
+        return ""
+        
     # Define a mapping from digits to their word equivalents
     digit_to_word = DIGIT_TO_WORD
 
-    # Convert the number to a string and map each digit to its word equivalent
-    words = [digit_to_word[digit] for digit in str(number)]
+    # Remove any non-digit characters (like hyphens or spaces)
+    cleaned_number = ''.join(filter(str.isdigit, str(number)))
+    
+    # Convert the cleaned number to a string and map each digit to its word equivalent
+    words = [digit_to_word[digit] for digit in cleaned_number]
     length = len(words)
 
     # Handle cases based on the number length
