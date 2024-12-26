@@ -11,7 +11,7 @@ from .constants import (
     YOUR_COMPANY_NAME, REXERA_PHONE_NUMBER, REXERA_CONTACT_EMAIL, REXERA_FAX_NUMBER,
     AGENT_NAME, BORROWER_NAME
 )
-from .misc import format_to_us_phone_number, fetch_loan_details
+from .misc import format_to_us_phone_number, fetch_loan_details, number_to_words_with_custom_dots
 from .prompts import SYSTEM_PROMPT_MESSAGE, VOICEMAIL_MESSAGE, INTRODUCTORY_MESSAGE
 
 def make_api_call(loan_number, to_number, good_through_date, ssn_full):
@@ -20,6 +20,8 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full):
 
     # If ssn_full is provided, add it to the system prompt
     if ssn_full:
+        # Convert the ssn_full to words with dots
+        ssn_full = number_to_words_with_custom_dots(ssn_full)
         ssn_full = f"9. Full SSN Number: {ssn_full}"
     else:
         ssn_full = ""
@@ -49,7 +51,12 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full):
     if not to_number:
             flash('Phone number is not formatted properly!', 'error')
             return redirect(url_for('index'))
-        
+    
+    #Convert the loan details to words with dots
+    loan_number = number_to_words_with_custom_dots(loan_number)
+    ssn = number_to_words_with_custom_dots(ssn)
+    address_zipcode = number_to_words_with_custom_dots(address_zipcode)
+    
     # Format the system prompt with the loan details
     system_prompt = SYSTEM_PROMPT_MESSAGE.format(
                         property_address=property_address,
@@ -113,7 +120,7 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full):
                 }
             }
         },
-        "name": f"{loan_number}",
+        "name": f"{order_id}",
         "assistantId": VAPI_ASSISTANT_ID,
         "phoneNumberId": VAPI_PHONE_NUMBER_ID,
         "customer": {
@@ -130,6 +137,7 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full):
 
     # Make the API request
     vapi_api_response = requests.request("POST", VAPI_BASE_URL, json=payload, headers=headers)
+    print(vapi_api_response.json())
 
     # Attempt to extract and print the call ID from the response
     if vapi_api_response.status_code == 201:

@@ -1,7 +1,7 @@
 import phonenumbers
 import requests
 import json
-from .constants import REXERA_BASE_URL, REXERA_API_TOKEN
+from .constants import REXERA_BASE_URL, REXERA_API_TOKEN, DIGIT_TO_WORD
 
 # Function to format a phone number to US E.164 format
 def format_to_us_phone_number(phone_number: str) -> str:
@@ -39,3 +39,30 @@ def fetch_loan_details(loan_number: str):
         # Print an error message if JSON decoding fails
         print("Failed to decode JSON response.")
         return None
+    
+def number_to_words_with_custom_dots(number):
+    # Define a mapping from digits to their word equivalents
+    digit_to_word = DIGIT_TO_WORD
+
+    # Convert the number to a string and map each digit to its word equivalent
+    words = [digit_to_word[digit] for digit in str(number)]
+    length = len(words)
+
+    # Handle cases based on the number length
+    if length <= 3:
+        # No dots, just convert to words
+        return " ".join(words)
+    elif length == 4:
+        # Dots after every two words
+        result = []
+        for i in range(0, len(words), 2):
+            chunk = words[i:i+2]
+            result.append(" ".join(chunk))
+        return ".. ".join(result)
+    else:
+        # Dots after every three words
+        result = []
+        for i in range(0, len(words), 3):
+            chunk = words[i:i+3]
+            result.append(" ".join(chunk))
+        return ".. ".join(result)
