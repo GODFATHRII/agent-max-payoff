@@ -20,10 +20,11 @@ def index():
         loan_number = request.form.get('loan_number')
         phone_number = request.form.get('phone_number')
         good_through_date = request.form.get('good_through_date')
+        borrower_name = request.form.get('borrower_name')
         ssn_full = request.form.get('ssn_full')  # Optional field
 
         # If all required fields are present, make an API call
-        if loan_number and phone_number and good_through_date:
+        if loan_number and phone_number and good_through_date and borrower_name:
             # Convert the date to yyyy-mm-dd format
             if good_through_date:
                 try:
@@ -33,7 +34,7 @@ def index():
                     flash('Invalid date format. Please use MM/DD/YYYY.', 'error')
                     return redirect(url_for('index'))
             
-            make_api_call(loan_number, phone_number, good_through_date, ssn_full)
+            make_api_call(loan_number, phone_number, good_through_date, ssn_full, borrower_name)
             # Redirect to the index page after processing
             return redirect(url_for('index'))
 

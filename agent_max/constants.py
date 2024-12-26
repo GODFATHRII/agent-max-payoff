@@ -33,7 +33,6 @@ VAPI_NUMBER_E164_CHECK_ENABLED = True
 
 # Agent and Company Information
 AGENT_NAME = "Max Sterling"
-BORROWER_NAME = "We will check and get back to you."
 YOUR_COMPANY_NAME = "Rexera"
 REXERA_PHONE_NUMBER = "plus one.. four one five.. two three six.. two five seven seven"
 REXERA_CONTACT_EMAIL = "contact us at rexera dot com"

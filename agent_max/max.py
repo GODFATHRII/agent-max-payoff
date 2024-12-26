@@ -9,12 +9,12 @@ from .constants import (
     VAPI_VOICEMAIL_DETECTION_PROVIDER, VAPI_VOICEMAIL_DETECTION_ENABLED,
     VAPI_SUCCESS_EVALUATION_PLAN_ENABLED, VAPI_NUMBER_E164_CHECK_ENABLED,
     YOUR_COMPANY_NAME, REXERA_PHONE_NUMBER, REXERA_CONTACT_EMAIL, REXERA_FAX_NUMBER,
-    AGENT_NAME, BORROWER_NAME
+    AGENT_NAME
 )
 from .misc import format_to_us_phone_number, fetch_loan_details, number_to_words_with_custom_dots
 from .prompts import SYSTEM_PROMPT_MESSAGE, VOICEMAIL_MESSAGE, INTRODUCTORY_MESSAGE
 
-def make_api_call(loan_number, to_number, good_through_date, ssn_full):
+def make_api_call(loan_number, to_number, good_through_date, ssn_full, borrower_name):
     # Fetch loan details using the provided loan number
     loan_details = fetch_loan_details(loan_number)
 
@@ -63,7 +63,7 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full):
                         loan_number=loan_number,
                         ssn=ssn,
                         good_through_date=good_through_date,
-                        borrower_name=BORROWER_NAME,
+                        borrower_name=borrower_name,
                         lender_name=lender_name,
                         address_zipcode=address_zipcode,
                         ssn_full=ssn_full,
