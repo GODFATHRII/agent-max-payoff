@@ -21,10 +21,10 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full, borrower_
     # If ssn_full is provided, add it to the system prompt
     if ssn_full:
         # Convert the ssn_full to words with dots
-        ssn_full = number_to_words_with_custom_dots(ssn_full)
-        ssn_full = f"9. Full SSN Number: {ssn_full}"
+        ssn_full_words = number_to_words_with_custom_dots(ssn_full)
+        ssn_full_words = f"9. Full SSN Number: {ssn_full_words}"
     else:
-        ssn_full = ""
+        ssn_full_words  = ""
         
     # If loan details are found, extract relevant information
     if loan_details:
@@ -53,20 +53,22 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full, borrower_
             return redirect(url_for('index'))
     
     #Convert the loan details to words with dots
-    loan_number = number_to_words_with_custom_dots(loan_number)
-    ssn = number_to_words_with_custom_dots(ssn)
-    address_zipcode = number_to_words_with_custom_dots(address_zipcode)
+    loan_number_words = number_to_words_with_custom_dots(loan_number)
+    ssn_words = number_to_words_with_custom_dots(ssn)
+    address_zipcode_words = number_to_words_with_custom_dots(address_zipcode)
     
     # Format the system prompt with the loan details
     system_prompt = SYSTEM_PROMPT_MESSAGE.format(
                         property_address=property_address,
+                        loan_number_words=loan_number_words,
                         loan_number=loan_number,
+                        ssn_words=ssn_words,
                         ssn=ssn,
                         good_through_date=good_through_date,
                         borrower_name=borrower_name,
                         lender_name=lender_name,
-                        address_zipcode=address_zipcode,
-                        ssn_full=ssn_full,
+                        address_zipcode_words=address_zipcode_words,
+                        ssn_full_words=ssn_full_words,
                         your_company_name=YOUR_COMPANY_NAME,
                         rexera_phone_number=REXERA_PHONE_NUMBER,
                         rexera_contact_email=REXERA_CONTACT_EMAIL,
@@ -78,7 +80,7 @@ def make_api_call(loan_number, to_number, good_through_date, ssn_full, borrower_
     
     # Format the voicemail message with the loan details
     selected_voicemail = VOICEMAIL_MESSAGE.format(
-                            loan_number=loan_number,
+                            loan_number_words=loan_number_words,
                             your_company_name=YOUR_COMPANY_NAME,
                             rexera_phone_number=REXERA_PHONE_NUMBER,
                             agent_name=AGENT_NAME,
